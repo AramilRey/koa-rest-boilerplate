@@ -1,0 +1,35 @@
+{
+  "name": "koa-rest-boilerplate",
+  "version": "1.0.0",
+  "description": "Koa2 Rest API",
+  "main": "api.js",
+  "scripts": {
+    "start": "nodemon .",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
+  },
+  "keywords": [
+    "rest",
+    "api",
+    "koa"
+  ],
+  "author": "Aramil Rey <aramilrey94@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^2.0.1",
+    "jsonwebtoken": "^8.2.2",
+    "koa": "^2.5.1",
+    "koa-body": "^4.0.1",
+    "koa-logger": "^3.2.0",
+    "koa-router": "^7.4.0",
+    "mongoose": "^5.1.4"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.9.1",
+    "nodemon": "^1.17.5"
+  }
+}
