@@ -1,6 +1,7 @@
+const config = require('../../../config');
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const User = new mongoose.Schema({
   type: { type: String, default: 'User' },
@@ -42,7 +43,7 @@ User.methods.validatePassword = function validatePassword(password) {
 User.methods.generateToken = function generateToken() {
   const user = this;
 
-  return jwt.sign({ id: user.id }, 'S3CR37');
+  return jwt.sign({ id: user.id }, config.get('jwt.key'));
 };
 
 module.exports = mongoose.model('user', User);
