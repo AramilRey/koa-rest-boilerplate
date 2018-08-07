@@ -46,4 +46,4 @@ User.methods.generateToken = function generateToken() {
   return jwt.sign({ id: user.id }, config.get('jwt.key'));
 };
 
-module.exports = mongoose.model('user', User);
+module.exports = User;

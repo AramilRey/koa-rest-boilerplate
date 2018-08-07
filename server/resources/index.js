@@ -1,40 +1,38 @@
 const Router = require('koa-router');
 const { getDirectories } = require('../lib/dirs');
 
-const resourcesPaths = getDirectories(__dirname);
-const resources = resourcesPaths.reduce((r, resourcePath) => {
+const resources = getDirectories(__dirname).map((resourcePath) => {
   const resourceName = resourcePath.split('/').pop();
 
-  r.push({
-    controller: require(`${resourcePath}/${resourceName}.controller`),
-    routes: require(`${resourcePath}/${resourceName}.routes`),
+  return {
+    name: resourceName,
     tests: require(`${resourcePath}/${resourceName}.tests`),
-    model: require(`${resourcePath}/${resourceName}.model`),
-  });
+    schema: require(`${resourcePath}/${resourceName}.schema`),
+    routes: require(`${resourcePath}/${resourceName}.routes`),
+    controller: require(`${resourcePath}/${resourceName}.controller`),
+  };
+});
 
-  return r;
-}, []);
+const routes = resources.map(resource => resource.routes);
+const models = resources.map(resource => resource.models);
+const tests = resources.map(resource => resource.tests);
 
-
-const routes = [];
-const models = [];
-const tests = [];
-
-resources.forEach((resource) => {
+const routers = resources.map((resource) => {
   const router = new Router();
+
+  router.prefix(`/${resource.name}`);
 
   resource.routes.forEach((route) => {
     const { method, path, handler } = route;
     router[method.toLowerCase()](path, resource.controller[handler]);
   });
 
-  routes.push(router.routes.bind(router));
-  models.push(resources.model);
-  tests.push(resources.test);
+  return router.routes.bind(router);
 });
 
 module.exports = {
-  default: resources,
+  resources,
+  routers,
   routes,
   models,
   tests,
